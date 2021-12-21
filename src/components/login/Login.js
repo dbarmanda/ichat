@@ -1,24 +1,23 @@
 import { Button } from '@mui/material';
 import React from 'react'
 import "./login.css";
+
 // import { auth, provider } from '../../firebase';
+import { auth } from './firebase';
+import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 
 function Login() {
 
-    
-
-    // const signIn = ()=>{
-    //     var google_provider = firebase.auth.GoogleAuthProvider();
-    //     firebase.auth().signInWithPopup(google_provider)
-    //         .then((re)=>{
-    //             console.log(re);
-    //         }) .catch((err)=>{
-    //             console.log(err);
-    //         })
-    // }
-
     const signIn = ()=>{
         // history.push('/');
+        const provider = new GoogleAuthProvider();
+        signInWithPopup(auth, provider)
+            .then( (res) =>{
+                console.log(res);
+            })
+            .catch((err)=>{
+                console.log(err);
+            })
     }
    
     return (

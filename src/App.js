@@ -5,6 +5,8 @@ import Imessage from './components/imessage/Imessage'
 import Login from './components/login/Login';
 import { selectUser } from './features/userSlice';
 
+
+
 function App() {
   
   //import user (default: null)
@@ -12,11 +14,8 @@ function App() {
   return (
     //BEM naming convention
     <div className="app">
-      {/* {user? (<Imessage/>) : (
-        <Login/>
-      )} */}
-      <Imessage/>
-      {/* <Login/> */}
+      
+      {user? (<Imessage/>) : (  <Login/> )}
       
     </div>
   );

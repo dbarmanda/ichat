@@ -5,7 +5,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import SidebarChat from '../sidebar-Chats/SidebarChat';
 
+import axios from '../../axios'
+
 function Sidebar() {
+
+    const [chats, setChats] = useState([]);
+
+   
 
     const addChat = ()=>{
         alert(`let's add the new chat brother`);
