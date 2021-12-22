@@ -3,33 +3,60 @@ import { useState } from 'react';
 import "./chat.css";
 import SendToMobileIcon from '@mui/icons-material/SendToMobile';
 import { IconButton } from '@mui/material';
-import Message from '../message/Message';
+import {Message} from '../message/Message';
 import { useSelector } from 'react-redux';
-import {selectChatName, selectChatId} from '../../features/chatSlice'
+import {selectChatName, selectChatId} from '../../features/chatSlice';
+import {selectUser} from '../../features/userSlice';
+
+import axios from '../../axios'
 
 function Chat() {
 
+    const user = useSelector(selectUser);
     const [input, setInput] = useState('');
     const [messages, setMessages] = useState([]);
 
     const chatName = useSelector(selectChatName);
     const chatId = useSelector(selectChatId);
 
+    const getConversation = (chatId) =>{
+        // console.log(chatId)
+        if(chatId){
+            axios.get(`/get/conversation?id=${chatId}`)
+                .then((res)=>{
+                    // console.log(res.data);
+                    setMessages(res.data[0].conversation);
+                })
+        }
+    };
+
+    useEffect(() => {
+       getConversation(chatId);
+    }, [chatId])
+
     const sendMessage = (e)=>{
         e.preventDefault();
         //backend stuff
+
+        axios.post(`/api/new/message?id=${chatId}`, {
+            message: input,
+            timestamp: Date.now(),
+            user: user 
+        })
 
         setInput('');
     }
 
     const setMessage = (e)=>{
         setInput(e.target.value);
-        console.log(input);
+        // console.log(input);
     }
 
     // useEffect(() => {
     //    //every time chatId changes do this (load this)
     // }, [chatId])
+
+    
 
     return (
         <div className="chat">
@@ -41,10 +68,11 @@ function Chat() {
 
             {/* chat messages display  */}
             <div className="chat_messages">
-                <Message/>
-                <Message/>
-                <Message/>
-                <Message/>
+                
+                {messages.map((message)=>{
+                       return <Message key={message._id} id={message._id} sender={message.user} message={message.message} timestamp={message.timestamp}/>
+                    })}
+              
                 
             </div>
 

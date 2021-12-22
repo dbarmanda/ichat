@@ -23,3 +23,21 @@
     right: 0;
     bottom: -5px;
 }
+
+.message_sender{
+    margin-left: auto;
+}
+
+.message_sender > p{
+    background-color: lightseagreen;
+
+}
+
+.message_sender > .message_photo {
+    order: 1;
+    margin: 15px;
+}
+
+.message_photo{
+    order : 0;;
+}

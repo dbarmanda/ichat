@@ -1,18 +1,24 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import { Avatar } from '@mui/material';
 import "./message.css"
 
-function Message(props) {
-    const {id, contents} = props;
-    
-    
+import { selectUser } from '../../features/userSlice';
+import { useSelector } from 'react-redux';
+
+export const Message = forwardRef(
+    (
+        {id, sender, message, timestamp},
+        ref
+    ) => {
+        const user = useSelector(selectUser)
     return (
-        <div className="message">
-            <Avatar />
-            <p>a message here...</p>
-            <small>timestamp</small>
-        </div>
+        <div ref={ref} className={`message ${user.email === sender.email && "message_sender"}`}>
+        <Avatar className="message_photo" src={sender.photo} />
+        <p>{message}</p>
+        {/* <small>{new Date(timestamp?.toDate()).toLocaleString()}</small> */}
+
+        <small>{new Date(parseInt(timestamp)).toGMTString()}</small>
+    </div>
     )
 }
-
-export default Message
+);
